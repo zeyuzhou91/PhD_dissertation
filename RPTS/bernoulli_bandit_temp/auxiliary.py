@@ -25,22 +25,6 @@ def argmax_of_array(array):
     return ind
 
 
-def argmax_M_of_array(array, M):
-    """
-    Find the index of the largest M values in an array of real numbers. 
-    
-    Input:
-      array:  an array of real numbers. 
-      M:      an integer. 
-    
-    Output:
-      ind:  an size-M array of integers. 
-    """
-    
-    ind = np.argpartition(array, -M)[-M:]
-    
-    return ind
-
 
 def argmin_of_array(array, num):
     """
@@ -48,7 +32,7 @@ def argmin_of_array(array, num):
     
     Inputs:
       array:   a numpy array. 
-      num: an integer.
+      num:     an integer.
     
     Output:
       idx:  a numpy array of integer indices.
