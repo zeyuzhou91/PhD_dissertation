@@ -1,8 +1,14 @@
+"""
+In this module, the class System is defined, which contains the variables and 
+procedures of the bandit problem, a sequence decision game. 
+"""
+
+
+
 import numpy as np
 import scipy as sp
 import scipy.stats as st
 import auxiliary as aux
-import myplot
 
 
 class System:
@@ -15,7 +21,7 @@ class System:
         self.best_reward = 0            # The expected reward corresponding to the best action        
                 
         # History
-        self.A = np.zeros(T)    # the action history  
+        self.A = np.zeros(T)         # the action history  
         self.OBS = np.zeros(T)       # the observation history
         self.REW = np.zeros(T)       # the reward history   
         self.REG = np.zeros(T)       # the regret history  
@@ -28,15 +34,7 @@ class System:
         Initialize the true system parameter. 
         """    
         
-        #self.theta_true = np.random.uniform(0,1,self.K) 
-        self.theta_true = np.array([0.6, 0.7])
-        #self.theta_true = np.array([0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95])
-        #self.theta_true = np.array([0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5])
-        #self.theta_true = np.array([0.51, 0.52, 0.53, 0.54, 0.55, 0.56, 0.57, 0.58, 0.59, 0.60])
-        #self.theta_true = np.array([0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.70])
-        #self.theta_true = np.array([0.1, 0.3, 0.5])
-        #self.theta_true = np.linspace(0.3, 0.8, self.K)
-        #self.theta_true = np.linspace(0.5, 0.7, self.K)
+        self.theta_true = np.random.uniform(0,1,self.K)  # randomly choose a parameter in [0,1]^K
         #self.theta_true = np.array([0.6, 0.7])
         #print('theta_true =', self.theta_true)
         
@@ -79,7 +77,6 @@ class System:
             obs:  the observation, a scaler
         """        
         
-        #obs = np.random.multivariate_normal(np.array([mean]), np.array([[self.var_W]]))
         obs = float(np.random.binomial(1, self.theta_true[a], 1))
         return obs
      
@@ -110,7 +107,6 @@ class System:
         
         # The actual reward is usually a function of the observation. 
         # However, here we consider the expected reward, which is a function of the action.
-        
         reward = self.theta_true[a]     
       
         return reward
@@ -140,9 +136,6 @@ class System:
         for t in range(self.T):
             #if t % 1 == 0:
                 #print(t)
-            
-            # plot the current states
-            myplot.plot_figures(self, t)
                
             # select an action
             a = self.select_action(t)

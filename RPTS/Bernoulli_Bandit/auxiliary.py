@@ -1,3 +1,7 @@
+"""
+Some auxiliary functions.
+"""
+
 import numpy as np
 import scipy as sp
 import scipy.stats as st
@@ -6,8 +10,7 @@ import scipy.stats as st
 
 def argmax_of_array(array):
     """
-    Find the index of the largest value in an array of real numbers. In the case 
-    where there are more than one largest values, randomly choose one of them. 
+    Find the index of the largest value in an array of real numbers. 
     
     Input:
       array:  an array of real numbers. 
@@ -15,17 +18,9 @@ def argmax_of_array(array):
     Output:
       index:  an integer in [K], where K = len(array)
     """
-    
-    ## Method 1.
-    ## This method supports random selection in the case of more than one largest values. 
-    #max_val = np.max(array)
-    #max_indices = np.where(array == max_val)[0]
-    #np.random.shuffle(max_indices)
-    #ind = max_indices[0]
-    
-    # Method 2.
+
     # Simple but does not support random selection in the case of more than one largest values. 
-    ind = np.argmax(array)
+    ind = int(np.argmax(array))
     
     return ind
 
@@ -37,7 +32,7 @@ def argmin_of_array(array, num):
     
     Inputs:
       array:   a numpy array. 
-      num: an integer.
+      num:     an integer.
     
     Output:
       idx:  a numpy array of integer indices.
@@ -81,7 +76,3 @@ def map_to_domain(x):
                     pass
     
     return y
-
-
-#x = np.array([[2, 0.2, -5], [-0.3, 0.5, 10], [4, -1, 0.1]])
-#print(map_to_domain(x))

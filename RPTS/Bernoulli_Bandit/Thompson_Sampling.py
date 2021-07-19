@@ -1,12 +1,16 @@
+"""
+In this module, Thompson sampling is implemented as a sub-class of the game.System class. 
+"""
+
 import numpy as np
 import scipy as sp
 import scipy.stats as st
-import Game
+import game
 import auxiliary as aux
 
 
-
-class System_TS(Game.System): 
+class System_TS(game.System): 
+    
     def __init__(self, K, T):
         super().__init__(K, T) 
         self.Alpha = np.ones(K) # The alpha values of the arms
@@ -43,7 +47,6 @@ class System_TS(Game.System):
         return np.random.beta(self.Alpha, self.Beta)
 
     
-    
     def update_state(self, a, obs, t):
         """
         Update the Alpha and Beta arrays given action a and observation obs. 
@@ -61,17 +64,6 @@ class System_TS(Game.System):
             
         #self.print_state()
         return None        
-             
-  
 
-
-    def print_state(self):
-        """
-        Print the current value of the state variables."
-        """
-        
-        print('Alpha', self.Alpha)
-        print('Beta', self.Beta) 
-        return None
 
 
