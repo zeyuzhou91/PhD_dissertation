@@ -34,8 +34,8 @@ class System:
         Initialize the true system parameter. 
         """    
         
-        self.theta_true = np.random.uniform(0,1,self.K)  # randomly choose a parameter in [0,1]^K
-        #self.theta_true = np.array([0.6, 0.7])
+        #self.theta_true = np.random.uniform(0,1,self.K)  # randomly choose a parameter in [0,1]^K
+        self.theta_true = np.array([0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50])
         #print('theta_true =', self.theta_true)
         
         return None     
@@ -50,7 +50,7 @@ class System:
           t:    the round index, 0 <= t <= T-1.
         
         Output:
-          obs:  the observation, a single value
+          obs:  the observation, 0 or 1
           rew:  the reward, a single value
           reg:  the regret, a single value 
         """
@@ -74,10 +74,10 @@ class System:
             a:    the action, an non-negative integer 
             
         Output:
-            obs:  the observation, a scaler
+            obs:  the observation, 0 or 1
         """        
         
-        obs = float(np.random.binomial(1, self.theta_true[a], 1))
+        obs = np.random.binomial(1, self.theta_true[a], 1)
         return obs
      
 
@@ -159,7 +159,7 @@ class System:
         """        
         Input:
           a:    the action, a non-negative integer
-          obs:  the observation, a scaler
+          obs:  the observation, 0 or 1
           rew:  the reward, a single value
           reg:  the regret, a single value 
           t:    the round index, 0 <= t <= T-1. 

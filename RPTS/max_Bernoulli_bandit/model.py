@@ -2,9 +2,6 @@
 The stochastic model of the observation. 
 """
 
-import numpy as np
-import time
-
 def calculate_likelihood(theta, a, obs):
     """
     Calculate the probability of observing obs by playing action a, given 

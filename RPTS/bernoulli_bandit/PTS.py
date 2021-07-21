@@ -3,7 +3,6 @@ In this module, the particle Thompson sampling algorithm is implemented as a
 sub-class of the game.System class. 
 """
 
-
 import numpy as np
 import scipy as sp
 import scipy.stats as st

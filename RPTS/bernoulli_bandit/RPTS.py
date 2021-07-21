@@ -153,7 +153,7 @@ def reweight(G, w, n, idx):
     v = np.copy(w)
     v[idx[:n]] = np.ones(n) * (G.w_new/n)               # weights of the re-generated particles: total weight = w_new
     v[idx[n:]] *= (1-G.w_new) / (sum(v[idx[n:]]))       # weights of the survived particles: total weight = 1-w_new  
-    return w
+    return v
  
     
 def calculate_empirical_stats(w, X):
@@ -223,6 +223,4 @@ def calculate_empirical_stats(w, X):
 
 
 
-    
-    
     

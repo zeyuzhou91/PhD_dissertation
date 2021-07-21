@@ -6,7 +6,6 @@ Simulation setup.
 import numpy as np
 import matplotlib.pyplot as plt
 import auxiliary as aux
-from copy import copy
 import Thompson_Sampling as TS
 import PTS
 import RPTS
@@ -69,7 +68,7 @@ def run_simulations(K, T, Npar, N_simul, alg):
 if __name__ == "__main__":
     
     ## Set up model parameters
-    K = 2         # number of arms
+    K = 10         # number of arms
     T = 10000       # time horizon
     N_simul = 20   # number of simulations
     
@@ -91,8 +90,8 @@ if __name__ == "__main__":
   
     plt.figure(1)
     plt.plot(range(T), x1, color='orange', linestyle='-', label = "PTS, Npar=100")
-    plt.plot(range(T), x2, color='green', linestyle='-', label = "PRTS-1, Npar=100")
-    plt.plot(range(T), x3, color='blue', linestyle='-', label = "PRTS-2, Npar=100")
+    plt.plot(range(T), x2, color='blue', linestyle='-', label = "RPTS-1, Npar=100")
+    plt.plot(range(T), x3, color='green', linestyle='-', label = "RPTS-2, Npar=100")
     plt.plot(range(T), x4, color='red', linestyle='-', label = "TS")
     plt.legend()
     plt.grid()
@@ -102,8 +101,8 @@ if __name__ == "__main__":
     
     plt.figure(2)
     plt.plot(range(T), y1, color='orange', linestyle='-', label = "PTS, Npar=100")
-    plt.plot(range(T), y2, color='green', linestyle='-', label = "PRTS-1, Npar=100")
-    plt.plot(range(T), y3, color='blue', linestyle='-', label = "PRTS-2, Npar=100")
+    plt.plot(range(T), y2, color='blue', linestyle='-', label = "RPTS-1, Npar=100")
+    plt.plot(range(T), y3, color='green', linestyle='-', label = "RPTS-2, Npar=100")
     plt.plot(range(T), y4, color='red', linestyle='-', label = "TS")
     plt.legend()
     plt.grid()

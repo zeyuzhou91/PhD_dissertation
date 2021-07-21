@@ -1,15 +1,20 @@
+"""
+In this module, the class System is defined, which contains the variables and 
+procedures of the bandit problem, a sequence decision game. 
+"""
+
+
 import numpy as np
 import scipy as sp
 import scipy.stats as st
 import auxiliary as aux
-import myplot
 
 
 class System:
     def __init__(self, K, M, T):
         
         self.K = K          # number of arms
-        self.M = M  # number of arms seleted at each step
+        self.M = M          # number of arms seleted at each step
         self.T = T          # time horizon       
         self.theta_true = np.zeros(K)   # The true system parameter
         self.best_action = np.zeros(M, dtype=int)   # The best action
@@ -29,9 +34,8 @@ class System:
         Initialize the true system parameter. 
         """    
         
-        #self.theta_true = np.random.uniform(0,1,self.K) 
-        self.theta_true = np.array([0.51, 0.52, 0.53, 0.54, 0.55, 0.56, 0.57, 0.58, 0.59, 0.60])
-        #self.theta_true = np.linspace(0.3, 0.8, self.K)
+        #self.theta_true = np.random.uniform(0,1,self.K) # randomly choose a parameter in [0,1]^K
+        self.theta_true = np.array([0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50])
         #print('theta_true =', self.theta_true)
         
         return None     
@@ -46,7 +50,7 @@ class System:
           t:    the round index, 0 <= t <= T-1.
         
         Output:
-          obs:  the observation, a single value
+          obs:  the observation, 0 or 1
           rew:  the reward, a single value
           reg:  the regret, a single value 
         """
@@ -75,7 +79,6 @@ class System:
     
         selected_thetas = self.theta_true[a]
         #print('The selected theta values =', selected_thetas)
-        
         values = np.random.binomial(1, selected_thetas)
         obs = max(values)        
         return obs
@@ -107,7 +110,6 @@ class System:
         
         # The actual reward is usually a function of the observation. 
         # However, here we consider the expected reward, which is a function of the action.
-        
         selected_thetas = self.theta_true[a]
         p = np.prod(1-selected_thetas)
         reward = 1-p    
@@ -162,7 +164,7 @@ class System:
         """        
         Input:
           a:    the action, a numpy array of integers in [K] of shape (M,)
-          obs:  the observation, a scaler
+          obs:  the observation, 0 or 1
           rew:  the reward, a single value
           reg:  the regret, a single value 
           t:    the round index, 0 <= t <= T-1. 
