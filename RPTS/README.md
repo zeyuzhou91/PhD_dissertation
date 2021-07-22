@@ -5,8 +5,8 @@ on RPTS.
 
 ## Description of folders
 
-bernoulli_bandit: simulation code for the Bernoulli bandit problem.
+**bernoulli_bandit**: simulation code for the Bernoulli bandit problem.
 
-max_Bernoulli_bandit: simulation code for the max-Bernoulli bandit problem. 
+**max_Bernoulli_bandit**: simulation code for the max-Bernoulli bandit problem. 
 
-linear_bandit: simulation code for the linear bandit problem. 
+**linear_bandit**: simulation code for the linear bandit problem. 
