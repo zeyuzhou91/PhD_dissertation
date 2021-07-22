@@ -8,7 +8,7 @@ and regenerative particle Thompson sampling (RPTS).
 
 **main.py** contains the simulation setup. Model parameters can be modified in this file.
 
-**game.py** implements the main procedures in the Bernoulli bandit problem.
+**bandit.py** implements the main procedures in the Bernoulli bandit problem.
 
 **auxuliary.py** constains some auxiliary functions. 
 
@@ -36,7 +36,7 @@ and regenerative particle Thompson sampling (RPTS).
 
 **Npar**: the number of particles, only applies to PTS, RPTS1, and RPTS2. 
 
-### 2. Open game.py and modify the function init_true_parameter().
+### 2. Open bandit.py and modify the function init_true_parameter().
 
 theta_true is the true system paramter. You can make this parameter fixed or randomly generated. 
 

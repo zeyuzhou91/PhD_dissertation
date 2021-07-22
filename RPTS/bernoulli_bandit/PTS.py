@@ -4,12 +4,12 @@ sub-class of the game.System class.
 """
 
 import numpy as np
-import game
+import bandit
 import auxiliary as aux
 import model
 
 
-class System_PTS(game.System): 
+class System_PTS(bandit.System): 
     def __init__(self, K, T, Npar):
         super().__init__(K, T) 
         self.Npar = Npar                        # number of particles

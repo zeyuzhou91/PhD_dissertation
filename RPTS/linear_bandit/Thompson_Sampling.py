@@ -1,9 +1,9 @@
 import numpy as np
-import game
+import bandit
 import auxiliary as aux
 
 
-class System_TS(game.System): 
+class System_TS(bandit.System): 
     def __init__(self, K, var_W, T):
         super().__init__(K, var_W, T) 
         self.Sigma = np.eye(K)      # The variance matrix of the posterior (Normal) distribution of theta 

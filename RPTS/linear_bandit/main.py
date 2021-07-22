@@ -68,7 +68,7 @@ if __name__ == "__main__":
     K = 2        # dimension of the parameter space
     var_W = 0.1  # variance of the noise W
     T = 10000      # time horizon
-    N_simul = 10   # number of simulations  
+    N_simul = 20   # number of simulations  
     
     alg='PTS'
     Npar=100

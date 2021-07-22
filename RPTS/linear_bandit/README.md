@@ -1,3 +1,78 @@
+# Simulation for Bernoulli bandit
+
+This folder contains the simulatoin code for solving the linear bandit problem
+with the following algorithms: Thompson sampling (TS), particle Thompson sampling (PTS), 
+and regenerative particle Thompson sampling (RPTS). 
+
+## Description of files
+
+**main.py** contains the simulation setup. Model parameters can be modified in this file.
+
+**bandit.py** implements the main procedures in the linear bandit problem.
+
+**auxuliary.py** constains some auxiliary functions. 
+
+**model.py** constains the observation model (a distribution). 
+
+**Thompson_Sampling.py** implements the Thompson sampling algorithm as a special case of Kalman filter. 
+
+**PTS.py** implements the particle Thompson sampling algorithm.
+
+**RPTS.py** implements the regenerative particle Thompson sampling algorithms, including RPTS1 and RPTS2. 
+
+
+
+## How to use
+
+### 1. Open main.py and set the parameters. 
+
+**K**: a positive integer, the dimension of the parameter space. 
+
+**var_W**: a positive real values, the variance of the noise W. 
+
+**T**: the time horizon (number of steps in each simulation).
+
+**N_simul**: the number of simulations to run, over which the average regret will be obtained.
+
+**alg**: a string, the name of the algorithm. Options: 'TS', 'PTS', 'RPTS1', 'RPTS2'.
+
+**Npar**: the number of particles, only applies to PTS, RPTS1, and RPTS2. 
+
+### 2. Open bandit.py and modify the function init_true_parameter().
+
+theta_true is the true system paramter. You can make this parameter fixed or randomly generated. 
+
+
+### 3. Open a terminal and run:
+
+python main.py
+
+
+## Simulations
+
+
+The simulation results contain two graphs, one for cumulative regret and one for 
+running average regret. 
+
+
+## Note
+
+For large T, or N_simul, or Npar, the simulation may take a long time. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Thompson sampling for linear bandits, a special case of Kalman filter
 
 This folder contains the simulation program of a linear bandit problem solved 
@@ -7,7 +82,7 @@ by Thompson sampling, implemented as a special case of Kalman filter.
 
 main.py contains the simulation setup. Model parameters can be modified in this file.
 
-Game.py implements the main body of the linear bandit model, with the main class System. 
+.py implements the main body of the linear bandit model, with the main class System. 
 
 Thompson_Sampling.py implements the Thompson sampling algorithm, with a sub-class System_TS.
 

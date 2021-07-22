@@ -57,10 +57,10 @@ def run_simulations(K, M, T, Npar, N_simul, alg):
 if __name__ == "__main__":
         
     ## Set up model parameters
-    K = 10          # number of total arms
+    K = 10          # total number of arms
     M = 3           # number of arms to be chosen at each time step
-    T = 10000      # time horizon
-    N_simul = 10   # number of simulations   
+    T = 1000      # time horizon
+    N_simul = 2   # number of simulations   
     
     alg = 'PTS'
     Npar= 100   
