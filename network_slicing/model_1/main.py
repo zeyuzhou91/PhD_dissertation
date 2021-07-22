@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import auxiliary as aux
-from copy import copy
 import PTS
 import RPTS
 import pickle
@@ -64,31 +63,44 @@ if __name__ == "__main__":
     # Set up model parameters
     D = 3        # number of domains
     B = [3,3,3]  # number of resource blocks in each domain
-    T = 10000      # time horizon
+    T = 1000      # time horizon
     N_simul = 10  # number of simulations
+    
+    alg = 'PTS_a'
+    Npar= 100
+    (x1,y1) = run_simulations(D,B,T,Npar,N_simul,alg)
     
     alg = 'PTS_b'
     Npar= 100
-    (x,y) = run_simulations(D,B,T,Npar,N_simul,alg)
-    fw = open('data/network_slicing_model1_' + str(B[0]) + '_' + str(B[1]) + '_' + str(B[2]) + '_' + alg + '_N' + str(Npar) + '_CUM', 'wb')
-    pickle.dump(x, fw)
-    fw.close()
-    fw = open('data/network_slicing_model1_' + str(B[0]) + '_' + str(B[1]) + '_' + str(B[2]) + '_' + alg + '_N' + str(Npar) + '_AVG', 'wb')
-    pickle.dump(y, fw)
-    fw.close()
+    (x2,y2) = run_simulations(D,B,T,Npar,N_simul,alg)    
+
+    alg = 'RPTS2_a'
+    Npar= 100
+    (x3,y3) = run_simulations(D,B,T,Npar,N_simul,alg)    
+    
+    alg = 'RPTS2_b'
+    Npar= 100
+    (x4,y4) = run_simulations(D,B,T,Npar,N_simul,alg)
     
     
-    #alg = 'PTS_b'
-    #Npar= 100
-    #(x,y) = run_simulations(D,B,T,Npar,N_simul,alg)
-    #fw = open('data/network_slicing_model1_' + str(B[0]) + '_' + str(B[1]) + '_' + str(B[2]) + '_' + alg + '_N' + str(Npar) + '_CUM', 'wb')
-    #pickle.dump(x, fw)
-    #fw.close()
-    #fw = open('data/network_slicing_model1_' + str(B[0]) + '_' + str(B[1]) + '_' + str(B[2]) + '_' + alg + '_N' + str(Npar) + '_AVG', 'wb')
-    #pickle.dump(y, fw)
-    #fw.close()      
+    plt.figure(1)
+    plt.plot(range(T), x1, color='orange', linestyle='-', label = "PTS with 100 per-system particles")
+    plt.plot(range(T), x2, color='purple', linestyle='-', label = "PTS with 100 per-block particles")
+    plt.plot(range(T), x3, color='green', linestyle='-', label = "RPTS-2 with 100 per-system particles")
+    plt.plot(range(T), x4, color='blue', linestyle='-', label = "RPTS-2 with 100 per-block particles")
+    plt.legend()
+    plt.grid()
+    plt.xlabel('t')
+    plt.ylabel('accumulative regret')
+    plt.show()    
     
-    
-    
-    
-    
+    plt.figure(2)
+    plt.plot(range(T), y1, color='orange', linestyle='-', label = "PTS with 100 per-system particles")
+    plt.plot(range(T), y2, color='purple', linestyle='-', label = "PTS with 100 per-block particles")
+    plt.plot(range(T), y3, color='green', linestyle='-', label = "RPTS-2 with 100 per-system particles")
+    plt.plot(range(T), y4, color='blue', linestyle='-', label = "RPTS-2 with 100 per-block particles")
+    plt.legend()
+    plt.grid()
+    plt.xlabel('t')
+    plt.ylabel('running average regret')
+    plt.show()    

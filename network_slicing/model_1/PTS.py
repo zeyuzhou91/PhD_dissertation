@@ -1,11 +1,9 @@
 import numpy as np
-import scipy as sp
-import scipy.stats as st
-import Game
+import bandit
 import auxiliary as aux
 
 
-class System_PTS_a(Game.System):
+class System_PTS_a(bandit.System):
     """
     PTS with per-system particles. 
     """
@@ -129,7 +127,7 @@ class System_PTS_a(Game.System):
         return lh
     
     
-class System_PTS_b(Game.System):
+class System_PTS_b(bandit.System):
     """
     PTS with per-block particles. 
     """    
