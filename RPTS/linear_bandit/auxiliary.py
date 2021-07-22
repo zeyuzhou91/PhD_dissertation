@@ -1,3 +1,8 @@
+"""
+Some auxiliary functions.
+"""
+
+
 import numpy as np
 
 
@@ -46,33 +51,6 @@ def argmin_of_array(array, num):
 
 
 
-#def map_to_domain(x):
-    #"""
-    #Map each row vector in the given matrix to the D-dimensional unit ball, if it is outside of that. 
-    #(That is, map to the sphere if it is outside of that.)
-    
-    #Input:
-      #x:  an numpy array of shape (N,D)
-    
-    #Output:
-      #y:  an numpy array of shape (N,D)
-    #"""
-    #y = np.copy(x)
-    
-    #if np.ndim(x) == 1:
-        #mag = np.linalg.norm(y)
-        #if mag > 1:
-            #y = y / mag
-     
-    #elif np.ndim(x) == 2:
-        #(N,D) = np.shape(y)
-        #for i in range(N):
-            #mag = np.linalg.norm(y[i,:])
-            #if mag > 1:
-                #y[i,:] = y[i,:] / mag
-    
-    #return y
-    
 
     
 

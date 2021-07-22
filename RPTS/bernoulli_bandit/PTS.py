@@ -4,8 +4,6 @@ sub-class of the game.System class.
 """
 
 import numpy as np
-import scipy as sp
-import scipy.stats as st
 import game
 import auxiliary as aux
 import model

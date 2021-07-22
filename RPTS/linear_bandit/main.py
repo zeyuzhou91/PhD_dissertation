@@ -1,27 +1,28 @@
+"""
+Simulation setup. 
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import auxiliary as aux
-from copy import copy
-import Particle_Thompson_Sampling as PTS
+import PTS
 import Thompson_Sampling as TS
-import Particle_Regeneration as PR
-import pickle
-import time
+import RPTS
 
 
 np.set_printoptions(precision=4)
 
-def run_simulations(N, var_W, T, Npar, N_simul, alg):
+def run_simulations(K, var_W, T, Npar, N_simul, alg):
     
     x = np.zeros(T)
     y = np.zeros(T)
     #start = time.time()
     for i in range(N_simul):
         if i % 1 == 0:
-            print('Dimension-' + str(N) + ', ' + alg + ', Npar=' + str(Npar) + ' Simulation ', i)
+            print('Dimension-' + str(K) + ', ' + alg + ', Npar=' + str(Npar) + ' Simulation ', i)
          
         if alg == 'TS':
-            G = TS.System_TS(N,var_W,T)
+            G = TS.System_TS(K,var_W,T)
             G.init_true_parameter()
             G.find_best_action()
             G.run()
@@ -29,16 +30,7 @@ def run_simulations(N, var_W, T, Npar, N_simul, alg):
             y += G.AVG_REG         
             
         if alg == 'PTS':
-            G = PTS.System_PTS(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG
-        
-        if alg == 'PR1':
-            G = PR.System_PR1(N,var_W,T,Npar)
+            G = PTS.System_PTS(K,var_W,T,Npar)
             G.init_true_parameter()
             G.find_best_action()
             G.init_particles()
@@ -46,53 +38,8 @@ def run_simulations(N, var_W, T, Npar, N_simul, alg):
             x += G.CUM_REG
             y += G.AVG_REG
 
-        if alg == 'PR2':
-            G = PR.System_PR2(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG
-
-        if alg == 'PR3':
-            G = PR.System_PR3(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG
-
-        if alg == 'PR4':
-            G = PR.System_PR4(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG
-
-        if alg == 'PR5':
-            G = PR.System_PR5(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG
-            
-        if alg == 'PR6':
-            G = PR.System_PR6(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG                
-
-        if alg == 'PR7':
-            G = PR.System_PR7(N,var_W,T,Npar)
+        if alg == 'RPTS1':
+            G = RPTS.System_RPTS1(K,var_W,T,Npar)
             G.init_true_parameter()
             G.find_best_action()
             G.init_particles()
@@ -100,32 +47,14 @@ def run_simulations(N, var_W, T, Npar, N_simul, alg):
             x += G.CUM_REG
             y += G.AVG_REG 
 
-        if alg == 'PR7a':
-            G = PR.System_PR7a(N,var_W,T,Npar)
+        if alg == 'RPTS2':
+            G = RPTS.System_RPTS2(K,var_W,T,Npar)
             G.init_true_parameter()
             G.find_best_action()
             G.init_particles()
             G.run()
             x += G.CUM_REG
-            y += G.AVG_REG
-            
-        if alg == 'PR8':
-            G = PR.System_PR8(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG
-            
-        if alg == 'PR9':
-            G = PR.System_PR9(N,var_W,T,Npar)
-            G.init_true_parameter()
-            G.find_best_action()
-            G.init_particles()
-            G.run()
-            x += G.CUM_REG
-            y += G.AVG_REG             
+            y += G.AVG_REG            
     
     x = x / N_simul
     y = y / N_simul
@@ -136,20 +65,45 @@ def run_simulations(N, var_W, T, Npar, N_simul, alg):
 if __name__ == "__main__":
     
     # Set up model parameters
-    N = 2        # dimension of the parameter space
+    K = 2        # dimension of the parameter space
     var_W = 0.1  # variance of the noise W
-    T = 1000      # time horizon
-    #Npar = 200    # number of particles
-    N_simul = 1   # number of simulations  
+    T = 10000      # time horizon
+    N_simul = 10   # number of simulations  
     
-    alg='PR7'
+    alg='PTS'
     Npar=100
-    (x,y) = run_simulations(N,var_W,T,Npar,N_simul,alg)
-    #fw = open('data/D' + str(N) + '/Linear_D' + str(N) + '_' + alg + '_N' + str(Npar) + '_CUM', 'wb')
-    #pickle.dump(x, fw)
-    #fw.close()
-    #fw = open('data/D' + str(N) + '/Linear_D' + str(N) + '_' + alg + '_N' + str(Npar) + '_AVG', 'wb')
-    #pickle.dump(y, fw)
-    #fw.close()
+    (x1,y1) = run_simulations(K,var_W,T,Npar,N_simul,alg)
     
-   
+    alg='RPTS1'
+    Npar=100
+    (x2,y2) = run_simulations(K,var_W,T,Npar,N_simul,alg) 
+    
+    alg='RPTS2'
+    Npar=100
+    (x3,y3) = run_simulations(K,var_W,T,Npar,N_simul,alg)      
+    
+    alg='TS'
+    Npar=100
+    (x4,y4) = run_simulations(K,var_W,T,Npar,N_simul,alg)     
+    
+    plt.figure(1)
+    plt.plot(range(T), x1, color='orange', linestyle='-', label = "PTS, Npar=100")
+    plt.plot(range(T), x2, color='blue', linestyle='-', label = "RPTS-1, Npar=100")
+    plt.plot(range(T), x3, color='green', linestyle='-', label = "RPTS-2, Npar=100")
+    plt.plot(range(T), x4, color='red', linestyle='-', label = "TS")
+    plt.legend()
+    plt.grid()
+    plt.xlabel('t')
+    plt.ylabel('accumulative regret')
+    plt.show()    
+    
+    plt.figure(2)
+    plt.plot(range(T), y1, color='orange', linestyle='-', label = "PTS, Npar=100")
+    plt.plot(range(T), y2, color='blue', linestyle='-', label = "RPTS-1, Npar=100")
+    plt.plot(range(T), y3, color='green', linestyle='-', label = "RPTS-2, Npar=100")
+    plt.plot(range(T), y4, color='red', linestyle='-', label = "TS")
+    plt.legend()
+    plt.grid()
+    plt.xlabel('t')
+    plt.ylabel('running average regret')
+    plt.show()    

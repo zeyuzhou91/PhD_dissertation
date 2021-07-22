@@ -4,8 +4,6 @@ including RPTS-1 and RPTS-2, are implemented as a sub-class of the PTS.System_PT
 """
 
 import numpy as np
-import scipy as sp
-import scipy.stats as st
 import PTS
 import auxiliary as aux
 import random

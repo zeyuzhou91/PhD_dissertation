@@ -1,22 +1,25 @@
+"""
+In this module, the class System is defined, which contains the variables and 
+procedures of the bandit problem, a sequence decision game. 
+"""
+
+
 import numpy as np
-import scipy as sp
-import scipy.stats as st
 import auxiliary as aux
-import myplot
 
 
 class System:
-    def __init__(self, N, var_W, T):
+    def __init__(self, K, var_W, T):
         
-        self.N = N          # dimension of the parameter space
+        self.K = K          # dimension of the parameter space
         self.var_W = var_W  # variance of the noise W
         self.T = T          # time horizon       
-        self.theta_true = np.zeros(N)   # The true system parameter 
-        self.best_action = np.zeros(N)  # The best action
+        self.theta_true = np.zeros(K)   # The true system parameter 
+        self.best_action = np.zeros(K)  # The best action
         self.best_reward = 0            # The expected reward corresponding to the best action
                 
         # History
-        self.A = np.zeros((T, N))    # the action history  # Note that self.A[t,:] is the action taken at time t, which is stored here as a row vector.
+        self.A = np.zeros((T, K))    # the action history  # Note that self.A[t,:] is the action taken at time t, which is stored here as a row vector.
         self.OBS = np.zeros(T)       # the observation history
         self.REW = np.zeros(T)       # the reward history   
         self.REG = np.zeros(T)       # the regret history  
@@ -29,9 +32,10 @@ class System:
         Initialize the true system parameter. 
         """    
         
-        #self.theta_true = np.random.uniform(-1,1,self.N)   
-        #self.theta_true = aux.generate_uniform_points_in_ball(1, 1, self.N)
-        self.theta_true = np.array([0.5, 0.5])
+        #self.theta_true = np.random.uniform(-1,1,self.K)   
+        #self.theta_true = aux.generate_uniform_points_in_ball(1, 1, self.K)
+        self.theta_true = 0.2 * np.ones(self.K)
+        #self.theta_true = np.array([0.5, 0.5])
         #print('theta_true =', self.theta_true)
         
         return None     
@@ -42,7 +46,7 @@ class System:
         Given action a, generate observation, record/calculate the reward and regret. 
         
         Input:
-          a:    the action, a length-N numpy array 
+          a:    the action, a length-K numpy array 
           t:    the round index, 0 <= t <= T-1.
         
         Output:
@@ -67,7 +71,7 @@ class System:
         Given an action a, generate the observation, which is random.  
         
         Input:
-            a:    the action, a length-N numpy array 
+            a:    the action, a length-K numpy array 
             
         Output:
             obs:  the observation, a scaler
@@ -86,8 +90,6 @@ class System:
         
         self.best_action = self.theta_true / np.linalg.norm(self.theta_true)
         #print('best action: ', self.best_action)
-        #print('np.shape(best_action) =', np.shape(self.best_action))
-        #print('np.shape(theta_true) =', np.shape(self.theta_true))
         self.best_reward = self.best_action.dot(self.theta_true)
         #print('best reward: ', self.best_reward)
         return None
@@ -99,7 +101,7 @@ class System:
         Note that the reward doesn't depend on the observation in this setting.
         
         Input:
-            a:   the actual action, a length-N numpy array
+            a:   the actual action, a length-K numpy array
             
         Output:
             reward: a real value.  
@@ -138,9 +140,6 @@ class System:
             #if t % 1 == 0:
                 #print(t)
             
-            # plot the current states
-            #myplot.plot_figures(self, t)
-              
             # select an action
             a = self.select_action(t)
             #print('Action:', a)
@@ -156,14 +155,13 @@ class System:
             
             # update history
             self.update_history(a, obs, rew, reg, t)
-            
         return None
 
 
     def update_history(self, a, obs, rew, reg, t):
         """        
         Input:
-          a:    the action, a length-N numpy array
+          a:    the action, a length-K numpy array
           obs:  the observation, a scaler
           rew:  the reward, a single value
           reg:  the regret, a single value 

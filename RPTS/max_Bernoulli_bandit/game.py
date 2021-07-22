@@ -5,8 +5,6 @@ procedures of the bandit problem, a sequence decision game.
 
 
 import numpy as np
-import scipy as sp
-import scipy.stats as st
 import auxiliary as aux
 
 

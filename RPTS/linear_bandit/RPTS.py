@@ -4,19 +4,20 @@ including RPTS-1 and RPTS-2, are implemented as a sub-class of the PTS.System_PT
 """
 
 import numpy as np
-import random
 import PTS
 import auxiliary as aux
+import random
+
 
 
 class System_RPTS1(PTS.System_PTS): 
- 
-    def __init__(self, K, T, Npar):
-        super().__init__(K, T, Npar) 
+    
+    def __init__(self, N, var_W, T, Npar):
+        super().__init__(N, var_W, T, Npar)
         self.w_inact = 0.001           # if f_del fraction of the lowest weighted particles have weights less than this value, regenerate.
         self.f_del = 0.8               # delete this fraction of particles at each regeneration
         self.w_new = 0.01              # the aggregate weight assigned to the newly re-generated particles
-    
+        
     def update_state(self, a, obs, t):
         """
         Update the state variables given action a and observation obs. 
@@ -45,20 +46,20 @@ class System_RPTS1(PTS.System_PTS):
         
         (mu, cov) = calculate_empirical_stats(self.w, self.Particles)
         Sigma = cov
-
+        
         self.Particles[idx[:die]] = guided_Gaussian_exploration(self, die, mu, Sigma) # particles killed and regenerated
         self.w = reweight(self, self.w, die, idx)
         return None
-
+   
 
 
 class System_RPTS2(PTS.System_PTS): 
-
-    def __init__(self, K, T, Npar):
-        super().__init__(K, T, Npar) 
+    
+    def __init__(self, N, var_W, T, Npar):
+        super().__init__(N, var_W, T, Npar) 
         self.w_inact = 0.001           # if f_del fraction of the lowest weighted particles have weights less than this value, regenerate.
         self.f_del = 0.8               # delete this fraction of particles at each regeneration
-        self.w_new = 0.01              # the aggregate weight assigned to the newly re-generated particles
+        self.w_new = 0.01              # the aggregate weight assigned to the newly re-generated particles      
     
     def update_state(self, a, obs, t):
         """
@@ -74,6 +75,7 @@ class System_RPTS2(PTS.System_PTS):
         
         if is_paralyzed(self.w, int(self.Npar*self.f_del), self.w_inact):
             self.kill_and_regenerate_particles(t)
+            
         return None
     
 
@@ -82,18 +84,18 @@ class System_RPTS2(PTS.System_PTS):
         Kill and regenerate the particles. 
         """    
         
-        die = int(self.Npar * self.f_del)   # kill this number of particles
+        die = int(self.Npar * self.f_del)  # kill this number of particles
         idx = np.argpartition(self.w, die)  # indices of particles to be killed
         
         (mu, cov) = calculate_empirical_stats(self.w, self.Particles)
-        Sigma = np.trace(cov) / self.K * np.eye(self.K)
+        Sigma = np.trace(cov) / self.K * np.eye(self.K) 
         
         self.Particles[idx[:die]] = guided_Gaussian_exploration(self, die, mu, Sigma) # particles killed and regenerated
         self.w = reweight(self, self.w, die, idx)
         return None
-
-
-
+   
+   
+    
 def is_paralyzed(v, num, threshold):
     """
     Decide if the num lowest valued entries in vector v add up to less than threshold. 
@@ -116,6 +118,7 @@ def is_paralyzed(v, num, threshold):
         return False    
     
 
+
 def guided_Gaussian_exploration(G, n, mu, Sigma):
     """
     Generate n particles according to Gaussian(mu, Sigma).
@@ -127,10 +130,10 @@ def guided_Gaussian_exploration(G, n, mu, Sigma):
       Sigma:  the covariance matrix of the Gaussian distribution. 
     
     Output:
-      Par: an numpy array of dimension (n, G.K), where each row is a particle. 
+      Par: an numpy array of dimension (n, G.N), where each row is a particle. 
     """
     
-    Par = aux.map_to_domain(np.random.multivariate_normal(mu, Sigma, n))
+    Par = np.random.multivariate_normal(mu, Sigma, n)
     return Par
 
 
@@ -152,7 +155,27 @@ def reweight(G, w, n, idx):
     v[idx[:n]] = np.ones(n) * (G.w_new/n)               # weights of the re-generated particles: total weight = w_new
     v[idx[n:]] *= (1-G.w_new) / (sum(v[idx[n:]]))       # weights of the survived particles: total weight = 1-w_new  
     return v
- 
+
+
+
+def reweight_without_balancing(G, n, idx):
+    """
+    Re-set the particle weight vector. Give the entries at idx[:n] a total weight of G.rebirth_weight. 
+    Scale other entries so that all entries still add up to one.
+    
+    Inputs:
+      n:  an integer, the weights of this number of entries need to be reset. 
+      idx: a numpy array of integers, the index array.
+      
+    Output:
+      w:  a numpy array, the updated weight vector. 
+    """
+    
+    w = np.copy(G.w)
+    w[idx[:n]] = np.ones(n) * (G.rebirth_weight/n)               #  weights of the re-generated particles: total weight = rebirth_weight
+    w[idx[n:]] *= (1-G.rebirth_weight) / (sum(w[idx[n:]]))       # weights of the survived particles: total weight = 1-rebirth_weight 
+    return w
+    
     
 def calculate_empirical_stats(w, X):
     """
@@ -218,7 +241,6 @@ def calculate_empirical_stats(w, X):
 #w = np.array([0.2, 0.3, 0.5])
 #X = np.array([[1,2], [3,1], [4,4]])
 #calculate_empirical_stats(w, X)
-
-
-
+    
+    
     
