@@ -10,7 +10,7 @@ and regenerative particle Thompson sampling (RPTS).
 
 **bandit.py** implements the main procedures in the Bernoulli bandit problem.
 
-**auxuliary.py** constains some auxiliary functions. 
+**auxiliary.py** constains some auxiliary functions. 
 
 **model.py** constains the observation model (a distribution). 
 
