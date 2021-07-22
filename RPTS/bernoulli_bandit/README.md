@@ -24,7 +24,7 @@ and regenerative particle Thompson sampling (RPTS).
 
 ## How to use
 
-### Open main.py and set the parameters. 
+### 1. Open main.py and set the parameters. 
 
 **N**: a positive integer, the number of arms.
 
@@ -36,12 +36,12 @@ and regenerative particle Thompson sampling (RPTS).
 
 **Npar**: the number of particles, only applies to PTS, RPTS1, and RPTS2. 
 
-### Open game.py and modify the function init_true_parameter().
+### 2. Open game.py and modify the function init_true_parameter().
 
 theta_true is the true system paramter. You can make this parameter fixed or randomly generated. 
 
 
-### Open a terminal and run:
+### 3. Open a terminal and run:
 
 python main.py
 
