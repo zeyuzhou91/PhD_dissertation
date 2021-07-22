@@ -1,38 +1,58 @@
-# Thompson sampling for linear bandits, a special case of Kalman filter (TO BE UPDATED)
+# Simulation for Bernoulli bandit
 
-This folder contains the simulation program of a linear bandit problem solved 
-by Thompson sampling, implemented as a special case of Kalman filter. 
+This folder contains the simulatoin code for solving the Bernoulli bandit problem
+with the following algorithms: Thompson sampling (TS), particle Thompson sampling (PTS), 
+and regenerative particle Thompson sampling (RPTS). 
 
 ## Description of files
 
 main.py contains the simulation setup. Model parameters can be modified in this file.
 
-Game.py implements the main body of the linear bandit model, with the main class System. 
+game.py implements the main procedures in the Bernoulli bandit problem.
 
-Thompson_Sampling.py implements the Thompson sampling algorithm, with a sub-class System_TS.
+auxuliary.py constains some auxiliary functions. 
 
-myplot.py implements functions for plotting figures, useful for showing animated dynamics of results. 
+model.py constains the observation model (a distribution). 
 
-Particle_Thompson_Sampling.py implements the Particle Thompson sampling algorithm, currently not used (to be modifed later). 
+Thompson_Sampling.py implements the Thompson sampling algorithm.
 
-auxuliary.py contains some auxiliary functions, currently empty. 
+PTS.py implements the particle Thompson sampling algorithm.
 
-test.py is a test program for plotting the contours of a Gaussian distribution. 
+RPTS.py implements the regenerative particle Thompson sampling algorithms, including RPTS1 and RPTS2. 
+
+
 
 ## How to use
 
-### Open main.py and set the parameters: 
+### Open main.py and set the parameters. 
 
-N: a positive integer, the number of dimensions of parameters and actions. 
+N: a positive integer, the number of arms.
 
-T: the time horizon (number of steps in each simulation)
+T: the time horizon (number of steps in each simulation).
 
-N_simul: the number of simulations to run, over which the average regret will be obtained
+N_simul: the number of simulations to run, over which the average regret will be obtained.
+
+alg: a string, the name of the algorithm. Options: 'TS', 'PTS', 'RPTS1', 'RPTS2'.
+
+Npar: the number of particles, only applies to PTS, RPTS1, and RPTS2. 
+
+### Open game.py and modify the function init_true_parameter().
+
+theta_true is the true system paramter. You can make this parameter fixed or randomly generated. 
+
 
 ### Open a terminal and run:
 
 python main.py
 
+
 ## Simulations
 
 
+The simulation results contain two graphs, one for cumulative regret and one for 
+running average regret. 
+
+
+## Note
+
+For large T, or N_simul, or Npar, the simulation may take a long time. 
