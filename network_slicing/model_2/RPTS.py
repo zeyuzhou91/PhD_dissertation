@@ -1,7 +1,4 @@
 import numpy as np
-import scipy as sp
-import scipy.stats as st
-import random
 import PTS
 import auxiliary as aux
 
@@ -58,7 +55,7 @@ class System_RPTS2_a(PTS.System_PTS_a):
         Par_new = guided_Gaussian_exploration(self, die, mu, Sigma) # particles killed and regenerated
         
         self.Particles[idx[:die]] = reshape_particles_vector_to_tensor(self, Par_new)
-        self.w = reweight_without_balancing(self, self.w, die, idx)
+        self.w = reweight(self, self.w, die, idx)
         return None
    
 
@@ -113,7 +110,7 @@ class System_RPTS2_b(PTS.System_PTS_b):
         Par_new = guided_Gaussian_exploration(self, die, mu, Sigma) # particles killed and regenerated
         
         self.Particles[i][j][idx[:die]] = Par_new
-        self.w[i][j] = reweight_without_balancing(self, self.w[i][j], die, idx)
+        self.w[i][j] = reweight(self, self.w[i][j], die, idx)
         return None
 
 
@@ -177,12 +174,6 @@ def is_paralyzed(v, num, threshold):
     else:
         return False    
     
-       
-#x = np.array([1,9,3,4,3,6,7,8,6,10])
-#print(is_paralyzed(x, 3, 0.5))
-#y = np.array([0.5, 0.001, 0.2, 0.0001, 0.0002, 0.0003, 0.2, 0.1, 0, 0])
-#print(is_paralyzed(y, 3, 0.1))
-
 
 
 def guided_Gaussian_exploration(G, n, mu, Sigma):
@@ -203,7 +194,7 @@ def guided_Gaussian_exploration(G, n, mu, Sigma):
     return Par
 
 
-def reweight_without_balancing(G, w, n, idx):
+def reweight(G, w, n, idx):
     """
     Re-set the particle weight vector. Give the entries at idx[:n] a total weight of G.rebirth_weight. 
     Scale other entries so that all entries still add up to one.
